@@ -116,9 +116,9 @@ class MRCNERDataset(Dataset):
         tokens = encode_plus["input_ids"]
         type_ids = encode_plus["token_type_ids"]
 
-        print()
-        print(f"Query: {query}")
-        print(f"Context: {context}")
+        # print()
+        # print(f"Query: {query}")
+        # print(f"Context: {context}")
         offsets = (
             [(0, 0)]
             + get_offsets(query, tokenizer)
@@ -126,7 +126,7 @@ class MRCNERDataset(Dataset):
             + get_offsets(context, tokenizer)
             + [(0, 0)]
         )
-        print(f"offsets: {offsets}")
+        # print(f"offsets: {offsets}")
         word_ids = (
             [None]
             + token2words(query, tokenizer)
