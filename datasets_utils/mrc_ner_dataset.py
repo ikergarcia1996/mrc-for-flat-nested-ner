@@ -201,7 +201,7 @@ class MRCNERDataset(Dataset):
         end_label_mask = end_label_mask[: self.max_length]
 
         # make sure last token is [SEP]
-        sep_token = tokenizer.token_to_id("[SEP]")
+        sep_token = tokenizer.sep_token_id
         if tokens[-1] != sep_token:
             assert len(tokens) == self.max_length
             tokens = tokens[:-1] + [sep_token]
