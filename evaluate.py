@@ -10,7 +10,7 @@ from trainer import BertLabeling
 def evaluate(ckpt, hparams_file):
     """main"""
 
-    trainer = Trainer(gpus=[0, 1], distributed_backend="ddp")
+    trainer = Trainer(gpus=0)
 
     model = BertLabeling.load_from_checkpoint(
         checkpoint_path=ckpt,
