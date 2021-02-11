@@ -5,7 +5,7 @@ import json
 import torch
 from transformers import AutoTokenizer, BertTokenizer, XLMRobertaTokenizer
 from torch.utils.data import Dataset
-from typing import Union, List
+from typing import Union, List, Tuple
 
 
 def token2words(sentence: str, tokenizer) -> List[int]:
@@ -16,7 +16,7 @@ def token2words(sentence: str, tokenizer) -> List[int]:
     return [index for sublist in enc for index in sublist]
 
 
-def get_offsets(sentence: str) -> List[(int, int)]:
+def get_offsets(sentence: str) -> List[Tuple[int, int]]:
     offsets = []
     start = -1
     for n, c in enumerate(sentence):
@@ -48,7 +48,7 @@ class MRCNERDataset(Dataset):
     def __init__(
         self,
         json_path,
-        tokenizer: BertTokenizer,
+        tokenizer: Union[BertTokenizer, XLMRobertaTokenizer],
         max_length: int = 128,
         possible_only=False,
         is_chinese=False,
@@ -110,7 +110,9 @@ class MRCNERDataset(Dataset):
         encode_plus = tokenizer.encode_plus(query, context, add_special_tokens=True)
         tokens = encode_plus["input_ids"]
         type_ids = encode_plus["token_type_ids"]
-        offsets = [(0,0)] + get_offsets(query) + [(0,0)] + get_offsets(context) + [(0,0)]
+        offsets = (
+            [(0, 0)] + get_offsets(query) + [(0, 0)] + get_offsets(context) + [(0, 0)]
+        )
         word_ids = (
             [None]
             + token2words(query, tokenizer)
