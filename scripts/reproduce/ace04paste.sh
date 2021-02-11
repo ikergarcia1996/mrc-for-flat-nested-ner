@@ -7,7 +7,6 @@ python trainer.py \
 --precision=16 \
 --progress_bar_refresh_rate 1 \
 --lr 3e-5 \
---distributed_backend=ddp \
 --val_check_interval 0.5 \
 --accumulate_grad_batches 2 \
 --default_root_dir "/ikerlariak/igarcia945/NerQA/ace2004/output" \

@@ -3,8 +3,9 @@
 
 import json
 import torch
-from transformers import AutoTokenizer
+from transformers import AutoTokenizer, BertTokenizer, XLMRobertaTokenizer
 from torch.utils.data import Dataset
+from typing import Union
 
 
 class MRCNERDataset(Dataset):
@@ -21,7 +22,7 @@ class MRCNERDataset(Dataset):
     def __init__(
         self,
         json_path,
-        tokenizer: AutoTokenizer,
+        tokenizer: BertTokenizer,
         max_length: int = 128,
         possible_only=False,
         is_chinese=False,
@@ -80,7 +81,9 @@ class MRCNERDataset(Dataset):
                 x + sum([len(w) for w in words[: x + 1]]) for x in end_positions
             ]
 
-        query_context_tokens = tokenizer.encode(query, context, add_special_tokens=True)
+        query_context_tokens = tokenizer.encode_plus(
+            query, context, add_special_tokens=True
+        )
         tokens = query_context_tokens.ids
         type_ids = query_context_tokens.type_ids
         offsets = query_context_tokens.offsets
