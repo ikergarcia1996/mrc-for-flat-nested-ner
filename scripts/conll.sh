@@ -1,4 +1,3 @@
-export PYTHONPATH="$PWD"
 DATA_DIR="/ikerlariak/igarcia945/NerQA/conll03/"
 BERT_DIR="bert-base-uncased"
 
@@ -14,7 +13,7 @@ OUTPUT_DIR="/ikerlariak/igarcia945/NerQA/bert-base-uncased"
 mkdir -p $OUTPUT_DIR
 
 cd ..
-python trainer.py \
+python3 trainer.py \
 --data_dir $DATA_DIR \
 --bert_config_dir $BERT_DIR \
 --max_length $MAXLEN \
