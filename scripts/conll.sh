@@ -1,5 +1,5 @@
 export PYTHONPATH="$PWD"
-DATA_DIR="/home/ikergarcia/Documents/NerQA/conll03/"
+DATA_DIR="/ikerlariak/igarcia945/NerQA/conll03/"
 BERT_DIR="bert-base-uncased"
 
 BERT_DROPOUT=0.1
@@ -10,7 +10,7 @@ WARMUP=0
 MAXLEN=128
 MAXNORM=1.0
 
-OUTPUT_DIR="/home/ikergarcia/Documents/NerQA/conll03/bert-large-uncased"
+OUTPUT_DIR="/ikerlariak/igarcia945/NerQA/bert-base-uncased"
 mkdir -p $OUTPUT_DIR
 
 cd ..
