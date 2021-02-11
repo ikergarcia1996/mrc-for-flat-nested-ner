@@ -22,6 +22,7 @@ python3 trainer.py \
 --precision=16 \
 --progress_bar_refresh_rate 1 \
 --lr $LR \
+--distributed_backend=none \
 --val_check_interval 0.5 \
 --accumulate_grad_batches 2 \
 --default_root_dir $OUTPUT_DIR \
