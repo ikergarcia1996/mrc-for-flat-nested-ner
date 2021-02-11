@@ -3,21 +3,26 @@
 
 import torch
 import torch.nn as nn
-from transformers import BertModel, BertPreTrainedModel
+from transformers import (
+    AutoModel,
+    AutoModelForPreTraining,
+)
 
 from models.classifier import MultiNonLinearClassifier, SingleLinearClassifier
 
 
-class BertQueryNER(BertPreTrainedModel):
+class BertQueryNER(AutoModelForPreTraining):
     def __init__(self, config):
         super(BertQueryNER, self).__init__(config)
-        self.bert = BertModel(config)
+        self.bert = AutoModel.from_config(config)
 
         # self.start_outputs = nn.Linear(config.hidden_size, 2)
         # self.end_outputs = nn.Linear(config.hidden_size, 2)
         self.start_outputs = nn.Linear(config.hidden_size, 1)
         self.end_outputs = nn.Linear(config.hidden_size, 1)
-        self.span_embedding = MultiNonLinearClassifier(config.hidden_size * 2, 1, config.mrc_dropout)
+        self.span_embedding = MultiNonLinearClassifier(
+            config.hidden_size * 2, 1, config.mrc_dropout
+        )
         # self.span_embedding = SingleLinearClassifier(config.hidden_size * 2, 1)
 
         self.hidden_size = config.hidden_size
@@ -36,13 +41,19 @@ class BertQueryNER(BertPreTrainedModel):
             match_logits: start-end-match probs of shape [seq_len, 1]
         """
 
-        bert_outputs = self.bert(input_ids, token_type_ids=token_type_ids, attention_mask=attention_mask)
+        bert_outputs = self.bert(
+            input_ids, token_type_ids=token_type_ids, attention_mask=attention_mask
+        )
 
         sequence_heatmap = bert_outputs[0]  # [batch, seq_len, hidden]
         batch_size, seq_len, hid_size = sequence_heatmap.size()
 
-        start_logits = self.start_outputs(sequence_heatmap).squeeze(-1)  # [batch, seq_len, 1]
-        end_logits = self.end_outputs(sequence_heatmap).squeeze(-1)  # [batch, seq_len, 1]
+        start_logits = self.start_outputs(sequence_heatmap).squeeze(
+            -1
+        )  # [batch, seq_len, 1]
+        end_logits = self.end_outputs(sequence_heatmap).squeeze(
+            -1
+        )  # [batch, seq_len, 1]
 
         # for every position $i$ in sequence, should concate $j$ to
         # predict if $i$ and $j$ are start_pos and end_pos for an entity.
