@@ -16,20 +16,23 @@ def token2words(sentence: str, tokenizer) -> List[int]:
     return [index for sublist in enc for index in sublist]
 
 
-def get_offsets(sentence: str) -> List[Tuple[int, int]]:
-    offsets = []
-    start = -1
-    for n, c in enumerate(sentence):
-        if c == " ":
-            if start >= 0:
-                offsets.append((start, n))
-                start = -1
-        else:
-            if start < 0:
-                start = n
+def get_offsets(sentence: str, tokenizer) -> List[Tuple[int, int]]:
+    tokens = [
+        (tokenizer.convert_ids_to_tokens(tokenizer.encode(w, add_special_tokens=False)))
+        for w in sentence.split(" ")
+    ]
 
-    if start > 0:
-        offsets.append((start, len(sentence)))
+    offsets = []
+    start_id = 0
+
+    for word in tokens:
+        if len(word) > 0:
+            for token in word:
+                token = token.replace("#", "")
+                offsets.append((start_id, start_id + len(token)))
+                start_id += len(token)
+
+        start_id += 1
 
     return offsets
 
@@ -107,14 +110,21 @@ class MRCNERDataset(Dataset):
                 x + sum([len(w) for w in words[: x + 1]]) for x in end_positions
             ]
 
-        encode_plus = tokenizer.encode_plus(query, context, add_special_tokens=True)
+        encode_plus = tokenizer.encode_plus(
+            query.replace("#", ""), context.replace("#", ""), add_special_tokens=True
+        )
         tokens = encode_plus["input_ids"]
         type_ids = encode_plus["token_type_ids"]
 
+        print()
         print(f"Query: {query}")
-        print(f"Query: {context}")
+        print(f"Context: {context}")
         offsets = (
-            [(0, 0)] + get_offsets(query) + [(0, 0)] + get_offsets(context) + [(0, 0)]
+            [(0, 0)]
+            + get_offsets(query, tokenizer)
+            + [(0, 0)]
+            + get_offsets(context, tokenizer)
+            + [(0, 0)]
         )
         print(f"offsets: {offsets}")
         word_ids = (
