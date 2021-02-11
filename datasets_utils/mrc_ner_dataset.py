@@ -132,6 +132,7 @@ class MRCNERDataset(Dataset):
             + token2words(query, tokenizer)
             + [None]
             + token2words(context, tokenizer)
+            + [None]
         )
 
         print(f"word_ids: {word_ids}")
