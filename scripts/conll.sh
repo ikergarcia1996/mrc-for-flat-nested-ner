@@ -18,7 +18,7 @@ python3 trainer.py \
 --bert_config_dir $BERT_DIR \
 --max_length $MAXLEN \
 --batch_size 4 \
---gpus="0" \
+--gpus="0,1" \
 --precision=16 \
 --progress_bar_refresh_rate 1 \
 --lr $LR \
