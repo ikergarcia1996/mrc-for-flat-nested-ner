@@ -17,9 +17,9 @@ from torch.utils.data import DataLoader
 from transformers import AdamW
 from torch.optim import SGD
 
-from datasets.mrc_ner_dataset import MRCNERDataset
-from datasets.truncate_dataset import TruncateDataset
-from datasets.collate_functions import collate_to_max_length
+from datasets_utils.mrc_ner_dataset import MRCNERDataset
+from datasets_utils.truncate_dataset import TruncateDataset
+from datasets_utils.collate_functions import collate_to_max_length
 from metrics.query_span_f1 import QuerySpanF1
 from models.bert_query_ner import BertQueryNER
 from transformers import AutoConfig

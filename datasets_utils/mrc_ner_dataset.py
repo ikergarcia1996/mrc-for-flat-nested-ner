@@ -201,16 +201,16 @@ class MRCNERDataset(Dataset):
 def run_dataset():
     """test dataset"""
     import os
-    from datasets.collate_functions import collate_to_max_length
+    from datasets_utils.collate_functions import collate_to_max_length
     from torch.utils.data import DataLoader
 
-    # zh datasets
+    # zh datasets_utils
     # bert_path = "/mnt/mrc/chinese_L-12_H-768_A-12"
     # json_path = "/mnt/mrc/zh_msra/mrc-ner.test"
     # # json_path = "/mnt/mrc/zh_onto4/mrc-ner.train"
     # is_chinese = True
 
-    # en datasets
+    # en datasets_utils
     bert_path = "/mnt/mrc/bert-base-uncased"
     json_path = "/mnt/mrc/ace2004/mrc-ner.train"
     # json_path = "/mnt/mrc/genia/mrc-ner.train"
