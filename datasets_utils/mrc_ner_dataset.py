@@ -5,7 +5,33 @@ import json
 import torch
 from transformers import AutoTokenizer, BertTokenizer, XLMRobertaTokenizer
 from torch.utils.data import Dataset
-from typing import Union
+from typing import Union, List
+
+
+def token2words(sentence: str, tokenizer) -> List[int]:
+    enc = [
+        [l] * len(tokenizer.encode(w, add_special_tokens=False))
+        for l, w in enumerate(sentence.split())
+    ]
+    return [index for sublist in enc for index in sublist]
+
+
+def get_offsets(sentence: str) -> List[(int, int)]:
+    offsets = []
+    start = -1
+    for n, c in enumerate(sentence):
+        if c == " ":
+            if start >= 0:
+                offsets.append((start, n))
+                start = -1
+        else:
+            if start < 0:
+                start = n
+
+    if start > 0:
+        offsets.append((start, len(sentence)))
+
+    return offsets
 
 
 class MRCNERDataset(Dataset):
@@ -81,12 +107,16 @@ class MRCNERDataset(Dataset):
                 x + sum([len(w) for w in words[: x + 1]]) for x in end_positions
             ]
 
-        query_context_tokens = tokenizer.encode_plus(
-            query, context, add_special_tokens=True
+        encode_plus = tokenizer.encode_plus(query, context, add_special_tokens=True)
+        tokens = encode_plus["input_ids"]
+        type_ids = encode_plus["token_type_ids"]
+        offsets = [(0,0)] + get_offsets(query) + [(0,0)] + get_offsets(context) + [(0,0)]
+        word_ids = (
+            [None]
+            + token2words(query, tokenizer)
+            + [None]
+            + token2words(context, tokenizer)
         )
-        tokens = query_context_tokens.ids
-        type_ids = query_context_tokens.type_ids
-        offsets = query_context_tokens.offsets
 
         # find new start_positions/end_positions, considering
         # 1. we add query tokens at the beginning
@@ -119,17 +149,11 @@ class MRCNERDataset(Dataset):
         # the start/end position must be whole word
         if not self.is_chinese:
             for token_idx in range(len(tokens)):
-                current_word_idx = query_context_tokens.words[token_idx]
+                current_word_idx = word_ids[token_idx]
                 next_word_idx = (
-                    query_context_tokens.words[token_idx + 1]
-                    if token_idx + 1 < len(tokens)
-                    else None
+                    word_ids[token_idx + 1] if token_idx + 1 < len(tokens) else None
                 )
-                prev_word_idx = (
-                    query_context_tokens.words[token_idx - 1]
-                    if token_idx - 1 > 0
-                    else None
-                )
+                prev_word_idx = word_ids[token_idx - 1] if token_idx - 1 > 0 else None
                 if prev_word_idx is not None and current_word_idx == prev_word_idx:
                     start_label_mask[token_idx] = 0
                 if next_word_idx is not None and current_word_idx == next_word_idx:
