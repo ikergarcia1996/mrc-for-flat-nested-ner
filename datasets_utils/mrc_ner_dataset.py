@@ -145,6 +145,13 @@ class MRCNERDataset(Dataset):
 
         # print(f"word_ids: {word_ids}")
 
+        assert len(word_ids) == len(tokens) == len(type_ids) == len(offsets), (
+            f"word_ids: {len(word_ids)} "
+            f"tokens: {len(tokens)} "
+            f"type_ids: {len(type_ids)} "
+            f"offsets: {len(offsets)} "
+        )
+
         # find new start_positions/end_positions, considering
         # 1. we add query tokens at the beginning
         # 2. word-piece tokenize
