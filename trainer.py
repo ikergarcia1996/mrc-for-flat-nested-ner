@@ -48,7 +48,7 @@ class BertLabeling(pl.LightningModule):
         self.bert_dir = args.bert_config_dir
         self.data_dir = self.args.data_dir
 
-        bert_config = AutoConfig.from_pretrained(
+        bert_config = BertQueryNER.from_pretrained(
             args.bert_config_dir,
             hidden_dropout_prob=args.bert_dropout,
             attention_probs_dropout_prob=args.bert_dropout,

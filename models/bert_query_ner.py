@@ -11,10 +11,10 @@ from transformers import (
 from models.classifier import MultiNonLinearClassifier, SingleLinearClassifier
 
 
-class BertQueryNER:
+class BertQueryNER(AutoModelForPreTraining):
     def __init__(self, config):
         print("TEST TEST TEST TEST ")
-        super(BertQueryNER, self).__init__()
+        super(BertQueryNER, self).__init__(config)
         print(f"CONFIG =============================================== {config}")
         self.bert = AutoModel.from_config(config)
 
