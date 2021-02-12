@@ -55,9 +55,7 @@ class BertLabeling(pl.LightningModule):
             mrc_dropout=args.mrc_dropout,
         )
 
-        self.model = BertQueryNER.from_pretrained(
-            args.bert_config_dir, config=bert_config
-        )
+        self.model = BertQueryNER(config=bert_config)
         # logging.info(str(self.model))
         logging.info(
             str(args.__dict__ if isinstance(args, argparse.ArgumentParser) else args)

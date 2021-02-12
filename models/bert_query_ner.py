@@ -11,7 +11,7 @@ from transformers import (
 from models.classifier import MultiNonLinearClassifier, SingleLinearClassifier
 
 
-class BertQueryNER(AutoModelForPreTraining):
+class BertQueryNER:
     def __init__(self, config):
         print("TEST TEST TEST TEST ")
         super(BertQueryNER, self).__init__(config)
@@ -29,7 +29,7 @@ class BertQueryNER(AutoModelForPreTraining):
 
         self.hidden_size = config.hidden_size
 
-        self.init_weights()
+        self.bert.init_weights()
 
     def forward(self, input_ids, token_type_ids=None, attention_mask=None):
         """
