@@ -116,27 +116,24 @@ class MRCNERDataset(Dataset):
             ]
 
         encode_plus = tokenizer.encode_plus(
-            query.replace("#", ""), context.replace("#", ""), add_special_tokens=True
+            query.replace("#", ""),
+            context.replace("#", ""),
+            add_special_tokens=True,
+            return_offsets_mapping=True,
         )
         tokens = encode_plus["input_ids"]
         type_ids = get_token_type_ids(ids=tokens, sep=tokenizer.sep_token_id)
 
-        print()
-        print(f"Query: {query}")
-        print(f"Context: {context}")
-        print(f"Token ids: {tokens}")
-        print(f"type_ids: {type_ids}")
+        # print()
+        # print(f"Query: {query}")
+        # print(f"Context: {context}")
+        # print(f"Token ids: {tokens}")
+        # print(f"type_ids: {type_ids}")
 
-        offsets = (
-            [(0, 0)]
-            + get_offsets(query, tokenizer)
-            + [(0, 0)]
-            + get_offsets(context, tokenizer)
-            + [(0, 0)]
-        )
+        offsets = encode_plus["offset_mapping"]
 
-        print(f"offsets: {offsets}")
-        
+        # print(f"offsets: {offsets}")
+
         word_ids = (
             [None]
             + token2words(query, tokenizer)
