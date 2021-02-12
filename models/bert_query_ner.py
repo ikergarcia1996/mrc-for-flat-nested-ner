@@ -3,21 +3,20 @@
 
 import torch
 import torch.nn as nn
-from transformers import (
-    AutoModel,
-    AutoModelForPreTraining,
-    BertPreTrainedModel
-)
+from transformers import AutoModel, AutoModelForPreTraining, BertPreTrainedModel
 
 from models.classifier import MultiNonLinearClassifier, SingleLinearClassifier
 
 
 class BertQueryNER(BertPreTrainedModel):
     def __init__(self, config):
-        print("TEST TEST TEST TEST ")
+
         super(BertQueryNER, self).__init__(config)
-        print(f"CONFIG =============================================== {config}")
-        self.bert = AutoModel.from_config(config)
+        print(f"CONFIG: {config}")
+
+        self.bert_config_dir = config.bert_config_dir
+
+        self.bert = AutoModel.from_config(self.bert_config_dir)
 
         # self.start_outputs = nn.Linear(config.hidden_size, 2)
         # self.end_outputs = nn.Linear(config.hidden_size, 2)
