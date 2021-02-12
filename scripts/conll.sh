@@ -1,15 +1,17 @@
 DATA_DIR="/ikerlariak/igarcia945/NerQA/conll03/"
 BERT_DIR="bert-base-uncased"
 
-BERT_DROPOUT=0.1
-MRC_DROPOUT=0.3
+BERT_DROPOUT=0.2
+MRC_DROPOUT=0.2
 LR=3e-5
-SPAN_WEIGHT=0.1
+SPAN_WEIGHT=1.0
+WEIGHT_START=1.0
+WEIGHT_END=1.0
 WARMUP=0
 MAXLEN=150
 MAXNORM=1.0
-BATCH_SIZE=16
-GRADIENT_ACCUMULATION_STEPS=2
+BATCH_SIZE=8
+GRADIENT_ACCUMULATION_STEPS=4
 WORKERS=8
 OUTPUT_DIR="/ikerlariak/igarcia945/NerQA/bert-base-uncased"
 mkdir -p $OUTPUT_DIR
@@ -32,8 +34,10 @@ python3 trainer.py \
 --max_epochs 20 \
 --span_loss_candidates "pred_and_gold" \
 --weight_span $SPAN_WEIGHT \
+--weight_start $WEIGHT_START \
+--weight_end $WEIGHT_END \
 --warmup_steps $WARMUP \
 --max_length $MAXLEN \
 --gradient_clip_val $MAXNORM \
 --flat \
---workers $WORKERS 
+--workers $WORKERS

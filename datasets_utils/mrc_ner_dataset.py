@@ -37,6 +37,11 @@ def get_offsets(sentence: str, tokenizer) -> List[Tuple[int, int]]:
     return offsets
 
 
+def get_token_type_ids(ids: List[int], sep: int) -> List[int]:
+    first_sep = ids.index(sep)
+    return [0] * (first_sep + 1) + [1] * (len(ids) - first_sep - 1)
+
+
 class MRCNERDataset(Dataset):
     """
     MRC NER Dataset
@@ -114,7 +119,7 @@ class MRCNERDataset(Dataset):
             query.replace("#", ""), context.replace("#", ""), add_special_tokens=True
         )
         tokens = encode_plus["input_ids"]
-        type_ids = encode_plus["token_type_ids"]
+        type_ids = get_token_type_ids(ids=tokens, sep=tokenizer.sep_token_id)
 
         # print()
         # print(f"Query: {query}")
@@ -262,7 +267,6 @@ def run_dataset():
     # json_path = "/mnt/mrc/genia/mrc-ner.train"
     is_chinese = False
 
-    vocab_file = os.path.join(bert_path, "vocab.txt")
     tokenizer = AutoTokenizer.from_pretrained(bert_path)
     dataset = MRCNERDataset(
         json_path=json_path, tokenizer=tokenizer, is_chinese=is_chinese
