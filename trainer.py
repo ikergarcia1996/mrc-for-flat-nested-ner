@@ -22,7 +22,7 @@ from datasets_utils.truncate_dataset import TruncateDataset
 from datasets_utils.collate_functions import collate_to_max_length
 from metrics.query_span_f1 import QuerySpanF1
 from models.bert_query_ner import BertQueryNER
-from models.query_ner_config import get_config
+from models.query_ner_config import get_auto_config
 from loss import *
 from utils.get_parser import get_parser
 from utils.radom_seed import set_random_seed
@@ -48,8 +48,8 @@ class BertLabeling(pl.LightningModule):
         self.bert_dir = args.bert_config_dir
         self.data_dir = self.args.data_dir
 
-        bert_config = get_config(
-            args.bert_config_dir,
+        bert_config = get_auto_config(
+            bert_config_dir=args.bert_config_dir,
             hidden_dropout_prob=args.bert_dropout,
             attention_probs_dropout_prob=args.bert_dropout,
             mrc_dropout=args.mrc_dropout,

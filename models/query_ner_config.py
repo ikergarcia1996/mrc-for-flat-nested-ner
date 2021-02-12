@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 
-from transformers import BertConfig, XLMRobertaConfig, RobertaConfig
+from transformers import BertConfig, XLMRobertaConfig, RobertaConfig, AutoConfig
 
 
 class BertQueryNerConfig(BertConfig):
@@ -64,3 +64,19 @@ def get_config(
         raise NotImplementedError(
             f"Model {bert_config_dir} not supported. Supported model: [bert,roberta,xlmroberta]"
         )
+
+
+def get_auto_config(
+    bert_config_dir,
+    hidden_dropout_prob,
+    attention_probs_dropout_prob,
+    mrc_dropout,
+):
+
+    config = AutoConfig.from_pretrained(bert_config_dir)
+    config["pretrained_model_name_or_path"] = bert_config_dir
+    config["hidden_dropout_prob"] = hidden_dropout_prob
+    config["attention_probs_dropout_prob"] = attention_probs_dropout_prob
+    config["mrc_dropout"] = mrc_dropout
+
+    return config
