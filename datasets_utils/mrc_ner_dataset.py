@@ -133,11 +133,12 @@ class MRCNERDataset(Dataset):
         offsets = encode_plus["offset_mapping"]
 
         # print(f"offsets: {offsets}")
+        number_of_seps = tokens.count(tokenizer.sep_token_id)
 
         word_ids = (
             [None]
             + token2words(query, tokenizer)
-            + [None]
+            + [None] * (number_of_seps - 1)
             + token2words(context, tokenizer)
             + [None]
         )
