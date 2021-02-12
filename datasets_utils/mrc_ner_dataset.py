@@ -8,12 +8,23 @@ from torch.utils.data import Dataset
 from typing import Union, List, Tuple
 
 
-def token2words(sentence: str, tokenizer) -> List[int]:
-    enc = [
-        [l] * len(tokenizer.encode(w, add_special_tokens=False))
-        for l, w in enumerate(sentence.split())
-    ]
-    return [index for sublist in enc for index in sublist]
+def token2words(offsets: str) -> List[int]:
+    current_word = 0
+    t2w: List[int] = []
+    prev_offset = -1
+
+    for offset in offsets:
+        if offset[0] == 0 and offset[1] == 0:
+            t2w.append(None)
+            current_word = 0
+            prev_offset = -1
+            continue
+        if offset[0] != prev_offset:
+            current_word += 1
+        t2w.append(current_word)
+        prev_offset = offset[1]
+
+    return t2w
 
 
 def get_offsets(sentence: str, tokenizer) -> List[Tuple[int, int]]:
@@ -133,15 +144,8 @@ class MRCNERDataset(Dataset):
         offsets = encode_plus["offset_mapping"]
 
         # print(f"offsets: {offsets}")
-        number_of_seps = tokens.count(tokenizer.sep_token_id)
 
-        word_ids = (
-            [None]
-            + token2words(query, tokenizer)
-            + [None] * (number_of_seps - 1)
-            + token2words(context, tokenizer)
-            + [None]
-        )
+        word_ids = token2words(offsets=offsets)
 
         # print(f"word_ids: {word_ids}")
 
