@@ -45,11 +45,11 @@ class BertLabeling(pl.LightningModule):
             TmpArgs = namedtuple("tmp_args", field_names=list(args.keys()))
             self.args = args = TmpArgs(**args)
 
-        self.bert_dir = args.bert_config_dir
+        self.pretrained_model_name_or_path = args.pretrained_model_name_or_path
         self.data_dir = self.args.data_dir
 
         bert_config = get_auto_config(
-            bert_config_dir=args.bert_config_dir,
+            bert_config_dir=args.pretrained_model_name_or_path,
             hidden_dropout_prob=args.bert_dropout,
             attention_probs_dropout_prob=args.bert_dropout,
             mrc_dropout=args.mrc_dropout,
