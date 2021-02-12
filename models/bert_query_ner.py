@@ -14,9 +14,9 @@ class BertQueryNER(BertPreTrainedModel):
         super(BertQueryNER, self).__init__(config)
         print(f"CONFIG: {config}")
 
-        self.bert_config_dir = config.bert_config_dir
+        self.pretrained_model_name_or_path = config.pretrained_model_name_or_path
 
-        self.bert = AutoModel.from_config(self.bert_config_dir)
+        self.bert = AutoModel.from_config(self.pretrained_model_name_or_path)
 
         # self.start_outputs = nn.Linear(config.hidden_size, 2)
         # self.end_outputs = nn.Linear(config.hidden_size, 2)
