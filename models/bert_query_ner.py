@@ -14,7 +14,7 @@ from models.classifier import MultiNonLinearClassifier, SingleLinearClassifier
 class BertQueryNER(AutoModelForPreTraining):
     def __init__(self, config):
         super(BertQueryNER, self).__init__(config)
-        print(config)
+        print(f"CONFIG =============================================== {config}")
         self.bert = AutoModel.from_config(config)
 
         # self.start_outputs = nn.Linear(config.hidden_size, 2)
