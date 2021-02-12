@@ -244,6 +244,19 @@ class MRCNERDataset(Dataset):
                 continue
             match_labels[start, end] = 1
 
+        print(
+            f"tokens: {tokens}\n"
+            f"type_ids: {type_ids}\n"
+            f"start_labels: {start_labels}\n"
+            f"end_labels: {end_labels}\n"
+            f"start_label_mask:{start_label_mask}\n"
+            f"end_label_mask:{end_label_mask}\n"
+            f"match_labels:{match_labels}\n"
+            f"sample_idx:{sample_idx}\n"
+            f"label_idx:{label_idx}\n"
+            f"==================================================0"
+        )
+
         return [
             torch.LongTensor(tokens),
             torch.LongTensor(type_ids),
