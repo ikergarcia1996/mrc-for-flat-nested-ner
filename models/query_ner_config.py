@@ -74,9 +74,9 @@ def get_auto_config(
 ):
 
     config = AutoConfig.from_pretrained(bert_config_dir)
-    config["pretrained_model_name_or_path"] = bert_config_dir
-    config["hidden_dropout_prob"] = hidden_dropout_prob
-    config["attention_probs_dropout_prob"] = attention_probs_dropout_prob
-    config["mrc_dropout"] = mrc_dropout
+    config.pretrained_model_name_or_path = bert_config_dir
+    config.hidden_dropout_prob = hidden_dropout_prob
+    config.attention_probs_dropout_prob = attention_probs_dropout_prob
+    config.mrc_dropout = mrc_dropout
 
     return config
