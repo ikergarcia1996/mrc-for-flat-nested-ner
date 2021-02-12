@@ -12,7 +12,6 @@ class BertQueryNER(BertPreTrainedModel):
     def __init__(self, config):
 
         super(BertQueryNER, self).__init__(config)
-        print(f"CONFIG: {config}")
 
         self.pretrained_model_name_or_path = config.pretrained_model_name_or_path
 
@@ -68,7 +67,7 @@ class BertQueryNER(BertPreTrainedModel):
         # [batch, seq_len, seq_len]
         span_logits = self.span_embedding(span_matrix).squeeze(-1)
 
-        print(f"start_logits: {start_logits}")
-        print(f"end_logits: {end_logits}")
-        print(f"span_logits: {span_logits}")
+        # print(f"start_logits: {start_logits}")
+        # print(f"end_logits: {end_logits}")
+        # print(f"span_logits: {span_logits}")
         return start_logits, end_logits, span_logits

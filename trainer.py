@@ -312,17 +312,9 @@ class BertLabeling(pl.LightningModule):
 
         attention_mask = (tokens != 0).long()
 
-        x = self(tokens, attention_mask, token_type_ids)
-        print(x)
-        print("===")
-        print(x[0])
-        print("---")
-        print(x[1])
-        print("---")
-        print(x[2])
-        print("===")
-
-        start_logits, end_logits, span_logits = x
+        start_logits, end_logits, span_logits = self(
+            tokens, attention_mask, token_type_ids
+        )
 
         start_loss, end_loss, match_loss = self.compute_loss(
             start_logits=start_logits,
