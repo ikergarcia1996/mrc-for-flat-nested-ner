@@ -66,4 +66,7 @@ class BertQueryNER(AutoModelForPreTraining):
         # [batch, seq_len, seq_len]
         span_logits = self.span_embedding(span_matrix).squeeze(-1)
 
+        print(f"start_logits: {start_logits}")
+        print(f"end_logits: {end_logits}")
+        print(f"span_logits: {span_logits}")
         return start_logits, end_logits, span_logits
