@@ -19,7 +19,7 @@ python3 trainer.py \
 --warmup_steps 0 \
 --gradient_clip_val 1.0 \
 --flat \
---workers 8
+--workers 8 > debug-roberta.txt
 
 
 mkdir -p "/ikerlariak/igarcia945/NerQA/conll03/"
@@ -43,6 +43,6 @@ python3 trainer.py \
 --warmup_steps 0 \
 --gradient_clip_val 1.0 \
 --flat \
---workers 8
+--workers 8 > debug-bert.txt
 
 

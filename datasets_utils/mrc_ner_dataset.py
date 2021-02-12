@@ -245,6 +245,10 @@ class MRCNERDataset(Dataset):
             match_labels[start, end] = 1
 
         print(
+            f"query: {query}\n"
+            f"context:{context}\n"
+            f"new_start_positions: {new_start_positions}\n"
+            f"new_end_positions: {new_end_positions}\n"
             f"tokens: {tokens}\n"
             f"type_ids: {type_ids}\n"
             f"start_labels: {start_labels}\n"
