@@ -313,7 +313,16 @@ class BertLabeling(pl.LightningModule):
         ) = batch
 
         attention_mask = (tokens != 0).long()
+
         x = self(tokens, attention_mask, token_type_ids)
+        print(x)
+        print("===")
+        print(x[0])
+        print("---")
+        print(x[1])
+        print("---")
+        print(x[2])
+        print("===")
 
         start_logits, end_logits, span_logits = x
 
