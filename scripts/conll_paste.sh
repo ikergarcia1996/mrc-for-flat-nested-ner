@@ -4,8 +4,8 @@ python3 trainer.py \
 --bert_config_dir "xlm-roberta-base" \
 --max_length 128 \
 --batch_size 8 \
---gpus="4," \
---precision=16 \
+--gpus=0 \
+--precision=32 \
 --progress_bar_refresh_rate 1 \
 --lr 3e-5 \
 --val_check_interval 0.5 \
@@ -25,7 +25,7 @@ python3 trainer.py \
 mkdir -p "/ikerlariak/igarcia945/NerQA/conll03/"
 python3 trainer.py \
 --data_dir "/ikerlariak/igarcia945/NerQA/conll03/" \
---bert_config_dir "bert-base-uncased" \
+--bert_config_dir "bert-large-cased" \
 --max_length 128 \
 --batch_size 8 \
 --gpus="4," \

@@ -1,5 +1,5 @@
 DATA_DIR="/ikerlariak/igarcia945/NerQA/conll03/"
-BERT_DIR="bert-base-uncased"
+BERT_DIR="bert-base-cased"
 
 BERT_DROPOUT=0.2
 MRC_DROPOUT=0.2
@@ -13,7 +13,7 @@ MAXNORM=1.0
 BATCH_SIZE=8
 GRADIENT_ACCUMULATION_STEPS=4
 WORKERS=8
-OUTPUT_DIR="/ikerlariak/igarcia945/NerQA/bert-base-uncased"
+OUTPUT_DIR="/ikerlariak/igarcia945/NerQA/bert-base-cased"
 mkdir -p $OUTPUT_DIR
 
 cd ..
