@@ -134,7 +134,9 @@ class MRCNERDataset(Dataset):
             + get_offsets(context, tokenizer)
             + [(0, 0)]
         )
-        # print(f"offsets: {offsets}")
+
+        print(f"offsets: {offsets}")
+        
         word_ids = (
             [None]
             + token2words(query, tokenizer)
