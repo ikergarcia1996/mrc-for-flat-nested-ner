@@ -14,7 +14,7 @@ from models.classifier import MultiNonLinearClassifier, SingleLinearClassifier
 class BertQueryNER:
     def __init__(self, config):
         print("TEST TEST TEST TEST ")
-        super(BertQueryNER, self).__init__(config)
+        super(BertQueryNER, self).__init__()
         print(f"CONFIG =============================================== {config}")
         self.bert = AutoModel.from_config(config)
 
